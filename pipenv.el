@@ -381,14 +381,11 @@ to latest compatible versions."
 
 (defun pipenv--verify-python-checkers ()
   "Manually verify checkers for python-mode"
-  (setq checkers (flycheck-defined-checkers 'modes))
-  (while checkers
-    (setq checker (car checkers))
+  (dolist (checker (flycheck-defined-checkers 'modes))
     (when (memq 'python-mode (flycheck-checker-get checker 'modes))
       (setq flycheck-disabled-checkers (remq checker flycheck-disabled-checkers))
       (setq flycheck-enabled-checkers (remq checker flycheck-enabled-checkers))
-      (flycheck-may-use-checker checker))
-    (setq checkers (cdr checkers))))
+      (flycheck-may-use-checker checker))))
 
 (defun pipenv-activate-flycheck ()
   "Activate integration of Pipenv with Flycheck."
